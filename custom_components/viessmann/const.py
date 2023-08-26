@@ -406,11 +406,11 @@ NUMBERS = [
         native_max_value=20.0,
         native_step=1.0,
         entity_category=EntityCategory.CONFIG,
-        mqttTopicCommand="setTempRaumNorRedlM1",
+        mqttTopicCommand="setTempRaumRedSollM1",
         mqttTopicCurrentValue="getTempRaumRedSollM1",
         icon="mdi:target",
         value_fn=float,
-        ivalue_fn=float,
+        ivalue_fn=int,
     ),
     ViessmannNumberEntityDescription(
         key="getTempPartyM1",
