@@ -410,7 +410,7 @@ NUMBERS = [
         mqttTopicCurrentValue="getTempRaumRedSollM1",
         icon="mdi:target",
         value_fn=float,
-        ivalue_fn=int,
+        ivalue_fn=float,
     ),
     ViessmannNumberEntityDescription(
         key="getTempPartyM1",
