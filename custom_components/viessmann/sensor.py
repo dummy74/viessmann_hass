@@ -63,7 +63,7 @@ class ViessmannSensor(ViessmannBaseEntity, SensorEntity):
         uniqueID: str | None,
         device_friendly_name: str,
         mqtt_root: str,
-        description: openwbSensorEntityDescription,
+        description: ViessmannSensorEntityDescription,
     ) -> None:
         """Initialize the sensor and the openWB device."""
         super().__init__(
@@ -87,81 +87,14 @@ class ViessmannSensor(ViessmannBaseEntity, SensorEntity):
 
             # Convert data if a conversion function is defined
             if self.entity_description.value_fn is not None:
-                self._attr_native_value = self.entity_description.value_fn(
-                    self._attr_native_value
-                )
+                self._attr_native_value = self.entity_description.value_fn(self._attr_native_value)
 
             # Map values as defined in the value map dict.
             if self.entity_description.valueMap is not None:
                 try:
-                    self._attr_native_value = self.entity_description.valueMap.get(
-                        int(self._attr_native_value)
-                    )
+                    self._attr_native_value = self.entity_description.valueMap.get(self._attr_native_value)
                 except ValueError:
                     self._attr_native_value = self._attr_native_value
-
-            # Reformat TimeRemaining --> timestamp.
-            if "TimeRemaining" in self.entity_description.key:
-                now = dt.utcnow()
-                if "H" in self._attr_native_value:
-                    tmp = self._attr_native_value.split()
-                    delta = timedelta(hours=int(tmp[0]), minutes=int(tmp[2]))
-                    self._attr_native_value = now + delta
-                elif "Min" in self._attr_native_value:
-                    tmp = self._attr_native_value.split()
-                    delta = timedelta(minutes=int(tmp[0]))
-                    self._attr_native_value = now + delta
-                else:
-                    self._attr_native_value = None
-
-            # Reformat uptime sensor
-            if "uptime" in self.entity_id:
-                reluptime = re.match(
-                    ".*\sup\s(.*),.*\d*user.*", self._attr_native_value
-                )[1]
-                days = 0
-                if re.match("(\d*)\sday.*", reluptime):
-                    days = re.match("(\d*)\sday", reluptime)[1]
-                    reluptime = re.match(".*,\s(.*)", reluptime)[1]
-                if re.match(".*min", reluptime):
-                    hours = 0
-                    mins = re.match("(\d*)\s*min", reluptime)[1]
-                else:
-                    hours, mins = re.match("\s?(\d*):0?(\d*)", reluptime).group(1, 2)
-                self._attr_native_value = f"{days} d {hours} h {mins} min"
-
-            # If MQTT message contains IP --> set up configuration_url to visit the device
-            elif "ip_adresse" in self.entity_id:
-                device_registry = async_get_dev_reg(self.hass)
-                device = device_registry.async_get_device(
-                    self.device_info.get("identifiers")
-                )
-                device_registry.async_update_device(
-                    device.id,
-                    configuration_url=f"http://{message.payload}/openWB/web/index.php",
-                )
-                device_registry.async_update_device
-            # If MQTT message contains version --> set sw_version of the device
-            elif "version" in self.entity_id:
-                device_registry = async_get_dev_reg(self.hass)
-                device = device_registry.async_get_device(
-                    self.device_info.get("identifiers")
-                )
-                device_registry.async_update_device(
-                    device.id, sw_version=message.payload
-                )
-                device_registry.async_update_device
-
-            # Update icon of countPhasesInUse
-            elif "countPhasesInUse" in self.entity_description.key:
-                if int(message.payload) == 0:
-                    self._attr_icon = "mdi:numeric-0-circle-outline"
-                elif int(message.payload) == 1:
-                    self._attr_icon = "mdi:numeric-1-circle-outline"
-                elif int(message.payload) == 3:
-                    self._attr_icon = "mdi:numeric-3-circle-outline"
-                else:
-                    self._attr_icon = "mdi:numeric"
 
             # Update entity state with value published on MQTT.
             self.async_write_ha_state()

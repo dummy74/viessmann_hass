@@ -62,7 +62,7 @@ DATA_SCHEMA = vol.Schema(
 class ViessmannSensorEntityDescription(SensorEntityDescription):
     """Enhance the sensor entity description for Viessmann"""
 
-    value_fn: Callable | None = None
+    value_fn: Callable | None = lambda v: round(float(v),1)
     valueMap: dict | None = None
     mqttTopicCurrentValue: str | None = None
 
@@ -361,7 +361,7 @@ NUMBERS = [
         mqttTopicCommand="setNiveauM1",
         mqttTopicCurrentValue="getNiveauM1",
         icon="mdi:car-cruise-control",
-        value_fn=int,
+        value_fn=float,
         ivalue_fn=int,
     ),
     ViessmannNumberEntityDescription(
