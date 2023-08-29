@@ -124,22 +124,30 @@ SENSORS = [
         entity_category=EntityCategory.DIAGNOSTIC,
         icon="mdi:thermometer",
     ),
-    # ViessmannSensorEntityDescription(
-    #     key="getTempRaumNorSollM1",
-    #     name="TempRaumNorSollM1",
-    #     device_class=SensorDeviceClass.TEMPERATURE,
-    #     native_unit_of_measurement="°C",
-    #     entity_category=EntityCategory.DIAGNOSTIC,
-    #     icon="mdi:thermometer",
-    # ),
-    # ViessmannSensorEntityDescription(
-    #     key="getTempRaumRedSollM1",
-    #     name="TempRaumRedSollM1",
-    #     device_class=SensorDeviceClass.TEMPERATURE,
-    #     native_unit_of_measurement="°C",
-    #     entity_category=EntityCategory.DIAGNOSTIC,
-    #     icon="mdi:thermometer",
-    # ),
+    ViessmannSensorEntityDescription(
+        key="getTempRaumNorSollM1",
+        name="TempRaumNorSollM1",
+        device_class=SensorDeviceClass.TEMPERATURE,
+        native_unit_of_measurement="°C",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        icon="mdi:thermometer",
+    ),
+    ViessmannSensorEntityDescription(
+        key="getTempRaumRedSollM1",
+        name="TempRaumRedSollM1",
+        device_class=SensorDeviceClass.TEMPERATURE,
+        native_unit_of_measurement="°C",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        icon="mdi:thermometer",
+    ),
+    ViessmannSensorEntityDescription(
+        key="getTempPartyM1",
+        name="TempPartyM1",
+        device_class=SensorDeviceClass.TEMPERATURE,
+        native_unit_of_measurement="°C",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        icon="mdi:thermometer",
+    ),
     ViessmannSensorEntityDescription(
         key="getTempKist",
         name="TempKist",
@@ -266,6 +274,13 @@ SENSORS = [
 ]
 BINARY_SENSORS = [
     ViessmannBinarySensorEntityDescription(
+        key="getBetriebPartyM1",
+        name="BetriebPartyM1",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=None,
+        icon="mdi:update",
+    ),
+    ViessmannBinarySensorEntityDescription(
         key="getPumpeStatusIntern",
         name="PumpeStatusIntern",
         entity_category=EntityCategory.DIAGNOSTIC,
@@ -296,7 +311,7 @@ BINARY_SENSORS = [
     ]
 SELECTS = [
     ViessmannSelectEntityDescription(
-        key="getBetriebArtM1",
+        key="setBetriebArtM1",
         entity_category=EntityCategory.CONFIG,
         name="BetriebArtM1",
         valueMapCurrentValue={
@@ -327,7 +342,7 @@ SELECTS = [
         ],
     ),
     ViessmannSelectEntityDescription(
-        key="getBetriebPartyM1",
+        key="setBetriebPartyM1",
         entity_category=EntityCategory.CONFIG,
         name="BetriebPartyM1",
         valueMapCurrentValue={
@@ -345,11 +360,49 @@ SELECTS = [
             "ON",
         ],
     ),
+    ViessmannSelectEntityDescription(
+        key="setPumpeStatusZirku",
+        entity_category=EntityCategory.CONFIG,
+        name="PumpeStatusZirku",
+        valueMapCurrentValue={
+            '0': "OFF",
+            '1': "ON",
+        },
+        valueMapCommand={
+            "OFF": 0,
+            "ON": 1,
+        },
+        mqttTopicCommand="setPumpeStatusZirku",
+        mqttTopicCurrentValue="getBetriebPartyM1",
+        modes=[
+            "OFF",
+            "ON",
+        ],
+    ),
+    ViessmannSelectEntityDescription(
+        key="setUmschaltventil",
+        entity_category=EntityCategory.CONFIG,
+        name="Umschaltventil",
+        valueMapCurrentValue={
+            '0': "OFF",
+            '1': "ON",
+        },
+        valueMapCommand={
+            "OFF": 0,
+            "ON": 1,
+        },
+        mqttTopicCommand="setUmschaltventil",
+        mqttTopicCurrentValue="getUmschaltventil",
+        modes=[
+            "OFF",
+            "ON",
+        ],
+    ),
     ]
 
 NUMBERS = [
     ViessmannNumberEntityDescription(
-        key="getNiveauM1",
+        key="setNiveauM1",
         name="NiveauM1",
         native_unit_of_measurement="°C",
         device_class=SensorDeviceClass.TEMPERATURE,
@@ -365,7 +418,7 @@ NUMBERS = [
         ivalue_fn=int,
     ),
     ViessmannNumberEntityDescription(
-        key="getNeigungM1",
+        key="setNeigungM1",
         name="NeigungM1",
         #native_unit_of_measurement=None,
         #device_class=None,
@@ -381,7 +434,7 @@ NUMBERS = [
         ivalue_fn=float,
     ),
     ViessmannNumberEntityDescription(
-        key="getTempRaumNorSollM1",
+        key="setTempRaumNorSollM1",
         name="TempRaumNorSollM1",
         native_unit_of_measurement="°C",
         device_class=SensorDeviceClass.TEMPERATURE,
@@ -397,7 +450,7 @@ NUMBERS = [
         ivalue_fn=float,
     ),
     ViessmannNumberEntityDescription(
-        key="getTempRaumRedSollM1",
+        key="setTempRaumRedSollM1",
         name="TempRaumRedSollM1",
         native_unit_of_measurement="°C",
         device_class=SensorDeviceClass.TEMPERATURE,
@@ -413,7 +466,7 @@ NUMBERS = [
         ivalue_fn=float,
     ),
     ViessmannNumberEntityDescription(
-        key="getTempPartyM1",
+        key="setTempPartyM1",
         name="TempPartyM1",
         native_unit_of_measurement="°C",
         device_class=SensorDeviceClass.TEMPERATURE,
@@ -433,7 +486,7 @@ NUMBERS = [
 DATETIMES = [
     
     ViessmannDatetimeEntityDescription(
-        key="getSystemTime",
+        key="setSystemTime",
         name="SystemTime",
         entity_category=EntityCategory.CONFIG,
         mqttTopicCommand="setSystemTime",
