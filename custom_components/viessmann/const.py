@@ -33,6 +33,7 @@ from homeassistant.const import (
 )
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.entity import EntityCategory
+from homeassistant.components.datetime import DateTimeEntityDescription
 
 PLATFORMS: list[Platform] = [
     Platform.SELECT,
@@ -105,7 +106,7 @@ class ViessmannNumberEntityDescription(NumberEntityDescription):
     
 
 @dataclass
-class ViessmannDatetimeEntityDescription(SwitchEntityDescription):
+class ViessmannDatetimeEntityDescription(DateTimeEntityDescription):
     """Enhance the select entity description for Viessmann"""
 
     mqttTopicCommand: str | None = None
