@@ -370,11 +370,11 @@ SELECTS = [
             '1': "ON",
         },
         valueMapCommand={
-            "OFF": '0',
-            "ON": '1',
+            "OFF": 0,
+            "ON": 1,
         },
         mqttTopicCommand="setPumpeStatusZirku",
-        mqttTopicCurrentValue="getBetriebPartyM1",
+        mqttTopicCurrentValue="getPumpeStatusZirku",
         modes=[
             "OFF",
             "ON",
