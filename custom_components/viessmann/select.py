@@ -79,13 +79,13 @@ class ViessmannSelect(ViessmannBaseEntity, SelectEntity):
         @callback
         def message_received(message):
             """Handle new MQTT messages."""
+            _LOGGER.debug(f"received: {message=}")
             try:
-                self._attr_current_option = (
-                    self.entity_description.valueMapCurrentValue.get(
-                        message.payload
-                    )
-                )
-            except ValueError:
+                val = message.payload
+                if self.entity_description.value_fn: val = self.entity_description.value_fn(val) 
+                self._attr_current_option = self.entity_description.valueMapCurrentValue.get(val)
+            except ValueError as e:
+                _LOGGER.error(e)
                 self._attr_current_option = None
 
             self.async_write_ha_state()

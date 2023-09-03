@@ -85,6 +85,8 @@ class ViessmannSelectEntityDescription(SelectEntityDescription):
     mqttTopicCommand: str | None = None
     mqttTopicCurrentValue: str | None = None
     modes: list | None = None
+    value_fn: Callable | None = None
+    ivalue_fn: Callable | None = None
 
 
 @dataclass
@@ -366,8 +368,8 @@ SELECTS = [
         entity_category=EntityCategory.CONFIG,
         name="PumpeStatusZirku",
         valueMapCurrentValue={
-            '0': "OFF",
-            '1': "ON",
+            0: "OFF",
+            1: "ON",
         },
         valueMapCommand={
             "OFF": 0,
@@ -379,6 +381,8 @@ SELECTS = [
             "OFF",
             "ON",
         ],
+        value_fn=lambda x: int(float(x)),
+        ivalue_fn=float,
     ),
     ViessmannSelectEntityDescription(
         key="getUmschaltventil",
