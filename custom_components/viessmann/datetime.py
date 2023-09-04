@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import copy
 import logging
-from datetime import datetime
+from datetime import datetime,timedelta
 import re
 
 from homeassistant.components import mqtt
@@ -85,7 +85,12 @@ class ViessmannDatetimeEntity(ViessmannBaseEntity, DateTimeEntity):
             """Handle new MQTT messages."""
             try:
                 val = self.entity_description.value_fn(message.payload)
-                _LOGGER.info(f"{val=}")
+                _LOGGER.debug(f"{val=}")
+                if not val is None and not self._attr_native_value is None and self.entity_description.name=='SystemTime':
+                    #_LOGGER.debug(f"{(val-self._attr_native_value)=} < {timedelta(seconds=60)=}")
+                    if (val-self._attr_native_value) < timedelta(seconds=60):
+                        _LOGGER.debug(f"omit update of 'SystemTime'")
+                        return
                 self._attr_native_value = val
             except Exception as e:
                 _LOGGER.error(e)
