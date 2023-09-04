@@ -284,6 +284,13 @@ BINARY_SENSORS = [
         icon="mdi:update",
     ),
     ViessmannBinarySensorEntityDescription(
+        key="getBetriebSparM1",
+        name="BetriebSparM1",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=None,
+        icon="mdi:update",
+    ),
+    ViessmannBinarySensorEntityDescription(
         key="getPumpeStatusIntern",
         name="PumpeStatusIntern",
         entity_category=EntityCategory.DIAGNOSTIC,
