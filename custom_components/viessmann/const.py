@@ -499,6 +499,21 @@ NUMBERS = [
         value_fn=float,
         ivalue_fn=float,
     ),
+    ViessmannNumberEntityDescription(
+        key="getDurationPartyM1",
+        name="DurationPartyM1",
+        native_unit_of_measurement="h",
+        mode="box",
+        native_min_value=0,
+        native_max_value=8,
+        native_step=1,
+        entity_category=EntityCategory.CONFIG,
+        mqttTopicCommand="setDurationPartyM1",
+        mqttTopicCurrentValue="getDurationPartyM1",
+        icon="mdi:car-cruise-control",
+        value_fn=int,
+        ivalue_fn=int,
+    ),
 ]
 
 DATETIMES = [
