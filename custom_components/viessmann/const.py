@@ -321,6 +321,37 @@ BINARY_SENSORS = [
     ]
 SELECTS = [
     ViessmannSelectEntityDescription(
+        key="getBetriebArtM1Test",
+        entity_category=EntityCategory.CONFIG,
+        name="BetriebArtM1Test",
+        valueMapCurrentValue={
+            "WW":       "0-WW",
+            "RED":      "1-RED",
+            "NORM":     "2-NORM",
+            "H+WW FS":  "3-H+WW FS",
+            "H*WW":     "4-H+WW",
+            "ABSCHALT": "5-ABSCHALT",
+        },
+        valueMapCommand={
+            "0-WW":       "WW",
+            "1-RED":      "RED",
+            "2-NORM":     "NORM",
+            "3-H+WW FS":  "H+WW FS",
+            "4-H+WW":     "H+WW",
+            "5-ABSCHALT": "ABSCHALT",
+        },
+        mqttTopicCommand="setBetriebArtM1Test",
+        mqttTopicCurrentValue="getBetriebArtM1Test",
+        modes=[
+            "0-WW",
+            "1-RED",
+            "2-NORM",
+            "3-H+WW FS",
+            "4-H+WW",
+            "5-ABSCHALT",
+        ],
+    ),
+    ViessmannSelectEntityDescription(
         key="getBetriebArtM1",
         entity_category=EntityCategory.CONFIG,
         name="BetriebArtM1",
