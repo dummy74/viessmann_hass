@@ -334,8 +334,8 @@ SELECTS = [
             "WW":       1,
             "H+WW":     2,
         },
-        mqttTopicCommand="setBetriebArtM1Test",
-        mqttTopicCurrentValue="getBetriebArtM1Test",
+        mqttTopicCommand="setBetriebProg",
+        mqttTopicCurrentValue="getBetriebProg",
         modes=[
             "ABSCHALT",
             "WW",
