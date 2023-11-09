@@ -353,7 +353,7 @@ SELECTS = [
             "RED":      "RED",
             "NORM":     "NORM",
             "H+WW FS":  "H+WW FS",
-            "H*WW":     "H+WW",
+            "H+WW":     "H+WW",
             "ABSCHALT": "ABSCHALT",
         },
         valueMapCommand={
