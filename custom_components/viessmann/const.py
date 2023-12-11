@@ -250,6 +250,15 @@ SENSORS = [
     ),
     
     ViessmannSensorEntityDescription(
+        key="getBrennerStarts",
+        name="BrennerStarts",
+        #device_class=SensorDeviceClass.POWER,
+        #native_unit_of_measurement="%",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        icon="mdi:counter",
+    ),
+    
+    ViessmannSensorEntityDescription(
         key="getBrennerStufe",
         name="BrennerStufe",
         device_class=SensorDeviceClass.POWER,
