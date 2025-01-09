@@ -10,13 +10,6 @@ from sqlalchemy import desc
 from homeassistant.components import mqtt
 from homeassistant.components.number import DOMAIN, NumberEntity, NumberMode
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import (
-    DEVICE_DEFAULT_NAME,
-    ELECTRIC_CURRENT_AMPERE,
-    ENERGY_KILO_WATT_HOUR,
-    ENTITY_CATEGORY_CONFIG,
-    PERCENTAGE,
-)
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
