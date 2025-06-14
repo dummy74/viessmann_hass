@@ -110,12 +110,11 @@ class ViessmannDatetimeEntity(ViessmannBaseEntity, DateTimeEntity):
         """Update the current value."""
         
         self._attr_native_value = value
-        self.publishToMQTT()
-        # self.async_write_ha_state()
-
-    def publishToMQTT(self):
+        
         topic = f"{self.entity_description.mqttTopicCommand}"
         _LOGGER.debug("MQTT topic: %s", topic)
-        payload = self.entity_description.ivalue_fn(self._attr_native_value)
+        payload = str(self.entity_description.ivalue_fn(self._attr_native_value))
         _LOGGER.debug("MQTT payload: %s", payload)
-        self.hass.components.mqtt.publish(self.hass, topic, payload)
+        await mqtt.async_publish(self.hass, topic, payload)
+        
+        # self.async_write_ha_state()
