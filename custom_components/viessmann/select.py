@@ -101,7 +101,17 @@ class ViessmannSelect(ViessmannBaseEntity, SelectEntity):
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
-        self.publishToMQTT(option)
+        topic = f"{self.entity_description.mqttTopicCommand}"
+        _LOGGER.debug("MQTT topic: %s", topic)
+        try:
+            payload = self.entity_description.valueMapCommand.get(option)
+            _LOGGER.debug("MQTT payload: %s", payload)
+            publish_mqtt_message = True
+        except ValueError:
+            publish_mqtt_message = False
+
+        if publish_mqtt_message:
+            await mqtt.async_publish(self.hass, topic, payload)
         """After select --> the result is published to MQTT. 
         But the HA sensor shall only change when the MQTT message on the /get/ topic is received.
         Only then, Viessmann has changed the setting as well.
@@ -109,15 +119,3 @@ class ViessmannSelect(ViessmannBaseEntity, SelectEntity):
         # self._attr_current_option = option
         # self.async_write_ha_state()
 
-    def publishToMQTT(self, commandValueToPublish):
-        topic = f"{self.entity_description.mqttTopicCommand}"
-        _LOGGER.debug("MQTT topic: %s", topic)
-        try:
-            payload = self.entity_description.valueMapCommand.get(commandValueToPublish)
-            _LOGGER.debug("MQTT payload: %s", payload)
-            publish_mqtt_message = True
-        except ValueError:
-            publish_mqtt_message = False
-
-        if publish_mqtt_message:
-            self.hass.components.mqtt.publish(self.hass, topic, payload)
