@@ -73,7 +73,7 @@ class ViessmannDatetimeEntity(ViessmannBaseEntity, DateTimeEntity):
 
         self.entity_description = description
         self._attr_unique_id = slugify(f"{uniqueID}-{description.name}")
-        self.entity_id = f"{DOMAIN}.{uniqueID}-{description.name}"
+        self.entity_id = f"{DOMAIN}.{uniqueID}-{description.name}".lower()
         self._attr_name = description.name
         self._attr_native_value = datetime.astimezone(datetime.now())
 

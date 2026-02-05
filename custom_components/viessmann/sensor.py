@@ -7,7 +7,7 @@ import logging
 import re
 
 from homeassistant.components import mqtt
-from homeassistant.components.sensor import SensorEntity
+from homeassistant.components.sensor import DOMAIN, SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import async_get as async_get_dev_reg
@@ -74,7 +74,7 @@ class ViessmannSensor(ViessmannBaseEntity, SensorEntity):
         self.entity_description = description
 
         self._attr_unique_id = slugify(f"{uniqueID}-{description.name}")
-        self.entity_id = f"sensor.{uniqueID}-{description.name}"
+        self.entity_id = f"{DOMAIN}.{uniqueID}-{description.name}".lower()
         self._attr_name = description.name
 
     async def async_added_to_hass(self):
