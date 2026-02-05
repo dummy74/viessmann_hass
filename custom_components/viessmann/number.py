@@ -81,7 +81,7 @@ class ViessmannNumber(ViessmannBaseEntity, NumberEntity):
         self.entity_description = description
 
         self._attr_unique_id = slugify(f"{unique_id}-{description.name}")
-        self.entity_id = f"{DOMAIN}.{unique_id}-{description.name}"
+        self.entity_id = f"{DOMAIN}.{unique_id}_{description.name}".lower()
         self._attr_name = description.name
 
         # if state is not None:

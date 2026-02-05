@@ -74,7 +74,7 @@ class ViessmannSensor(ViessmannBaseEntity, SensorEntity):
         self.entity_description = description
 
         self._attr_unique_id = slugify(f"{uniqueID}-{description.name}")
-        self.entity_id = f"{DOMAIN}.{uniqueID}-{description.name}".lower()
+        self.entity_id = f"{DOMAIN}.{uniqueID}_{description.name}".lower()
         self._attr_name = description.name
 
     async def async_added_to_hass(self):
